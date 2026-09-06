@@ -14,3 +14,6 @@ env/
 # 编辑器配置
 .vscode/
 .idea/
+
+# 向量数据库（运行时生成，可重建）
+chroma_db/
