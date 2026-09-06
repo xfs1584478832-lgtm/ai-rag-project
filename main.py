@@ -1,5 +1,8 @@
 import os
 import shutil
+
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from dotenv import load_dotenv
 from openai import OpenAI
 from fastapi import FastAPI, UploadFile, File, HTTPException
@@ -13,6 +16,9 @@ load_dotenv()
 
 # ========== 初始化 ==========
 app = FastAPI(title="AI 知识库问答系统")
+# 挂载静态文件目录
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 
 # 允许跨域（前端页面调用后端接口需要）
 app.add_middleware(
@@ -59,7 +65,8 @@ def get_vector_db():
 # ========== 接口 1：首页 ==========
 @app.get("/")
 async def root():
-    return {"message": "AI 知识库问答系统 API 已启动", "docs": "/docs"}
+    return FileResponse("static/index.html")
+
 
 
 # ========== 接口 2：上传文档，建立知识库 ==========
